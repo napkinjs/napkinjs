@@ -1,57 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-html, body {
-  padding: 0px;
-  margin: 0px;
-}
-
-#tablet {
-  width: 0px;
-  height: 0px;
-  padding: 0px;
-  margin: 0px;
-}
-
-#canvas {
-  display: absolute;
-  top: 0px;
-  left: 0px;
-}
-    </style>
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <canvas id="canvas"></canvas>
     <object id="tablet" type="application/x-wacomtabletplugin"></object>
-    <script>
-var tablet = document.getElementById("tablet"),
-    canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d");
-
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-var last_position = null;
-canvas.addEventListener("mousemove", function on_mousemove(ev) {
-  if (last_position) {
-    ctx.beginPath();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(0,0,0," + tablet.penAPI.pressure + ")";
-    ctx.moveTo(last_position.x, last_position.y);
-    ctx.lineTo(ev.x, ev.y);
-    ctx.stroke();
-  }
-
-  if (tablet.penAPI.pressure === 0) {
-    last_position = null;
-  } else {
-    last_position = {
-      x: ev.x,
-      y: ev.y,
-    };
-  }
-});
-    </script>
+    <script src="js/app.js"></script>
   </body>
 </html>
