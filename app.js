@@ -2,9 +2,12 @@
 
 var express = require("express"),
     http = require("http"),
-    path = require("path");
+    path = require("path"),
+    socket_io = require("socket.io");
 
-var app = express();
+var app = express(),
+    server = http.createServer(app),
+    io = socket_io.listen(server, {"log level": 0});
 
 app.configure(function() {
   app.use(express.logger());
@@ -12,7 +15,11 @@ app.configure(function() {
   app.use(express.static(path.join(__dirname, "public")));
 });
 
-var server = http.createServer(app);
+io.sockets.on("connection", function(socket) {
+  socket.on("draw", function(data) {
+    socket.broadcast.emit("draw", data);
+  });
+});
 
 server.listen(8080, function() {
   console.log("Server is listening...");
