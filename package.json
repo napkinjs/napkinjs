@@ -1,0 +1,27 @@
+{
+  "name": "napkinjs",
+  "version": "0.0.0",
+  "description": "Multiplayer wacom tablet fun!",
+  "main": "app.js",
+  "scripts": {
+    "test": "vows --spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/deoxxa/napkinjs.git"
+  },
+  "keywords": [
+    "napkin",
+    "drawing",
+    "game",
+    "wacom",
+    "tablet",
+    "multiplayer"
+  ],
+  "author": "Conrad Pankoff <deoxxa@fknsrs.biz> (http://www.fknsrs.biz/)",
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.0.6",
+    "socket.io": "~0.9.13"
+  }
+}
