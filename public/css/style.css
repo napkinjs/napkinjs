@@ -10,8 +10,12 @@ html, body {
   margin: 0px;
 }
 
-#canvas {
-  display: absolute;
+#canvas-a, #canvas-b {
+  position: absolute;
   top: 0px;
   left: 0px;
+}
+
+#canvas-b {
+  z-index: 999;
 }
