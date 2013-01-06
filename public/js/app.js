@@ -1,4 +1,4 @@
-var socket = io.connect();
+var socket = io.connect("/?id=" + window.location.pathname.split("/").pop());
 
 var tablet = document.getElementById("tablet"),
     canvas = document.getElementById("canvas"),
@@ -70,7 +70,7 @@ var draw_line = function draw_line(data) {
     ctx.stroke();
   }
 };
-    
+
 var draw_point = function draw_point(data) {
   ctx.beginPath();
   ctx.lineWidth = 1;
@@ -80,5 +80,5 @@ var draw_point = function draw_point(data) {
   ctx.stroke();
 };
 
-socket.on("connect", canvas.addEventListener.bind(canvas, "mousedown", on_mousedown));
+socket.on("ok", canvas.addEventListener.bind(canvas, "mousedown", on_mousedown));
 socket.on("draw", on_draw);
