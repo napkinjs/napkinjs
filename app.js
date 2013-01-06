@@ -7,6 +7,8 @@ var express = require("express"),
     path = require("path"),
     socket_io = require("socket.io");
 
+var config = require("./config.json");
+
 var app = express(),
     server = http.createServer(app),
     io = socket_io.listen(server, {"log level": 0}),
@@ -81,6 +83,6 @@ io.sockets.on("connection", function(socket) {
   });
 });
 
-server.listen(8080, function() {
-  console.log("Server is listening...");
+server.listen(config.http.port, function() {
+  console.log("Server is listening on " + JSON.stringify(this.address()));
 });
