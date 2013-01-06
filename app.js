@@ -50,6 +50,24 @@ app.get("/:session([a-z0-9]{4})", function(req, res, next) {
   });
 });
 
+app.get("/:session([a-z0-9]{4}).json", function(req, res, next) {
+  get_session(req.param("session"), function(err, session) {
+    if (err) {
+      return res.send(500);
+    }
+
+    if (!session) {
+      return res.send(404);
+    }
+
+    res.type("json");
+    res.writeHead();
+    session.actions.forEach(function(action) {
+      res.write(JSON.stringify(action) + "\n");
+    });
+  });
+});
+
 var sessions = {};
 var get_session = function get_session(id, done) {
   if (typeof sessions[id] === "undefined") {
