@@ -6,7 +6,9 @@ var express = require("express"),
     http = require("http"),
     nconf = require("nconf"),
     optimist = require("optimist"),
+    package = require("./package.json"),
     path = require("path"),
+    seaport = require("seaport"),
     socket_io = require("socket.io");
 
 nconf.argv().env();
@@ -14,6 +16,10 @@ optimist.argv._.reverse().concat(["config.json"]).filter(function(e) { return e.
 nconf.defaults({
   http: {
     host: "127.0.0.1",
+  },
+  seaport: {
+    host: "127.0.0.1",
+    port: 9999,
   },
 });
 
@@ -77,7 +83,7 @@ io.sockets.on("connection", function(socket) {
 
         client.emit("draw", data);
       });
-      
+
       session.actions.push(data);
     });
 
@@ -91,6 +97,8 @@ io.sockets.on("connection", function(socket) {
   });
 });
 
-server.listen(nconf.get("http:port"), function() {
+var ports = seaport.connect(nconf.get("seaport:host"), nconf.get("seaport:port"));
+
+server.listen(ports.register([package.name, package.version].join("@")), nconf.get("http:host"), function() {
   console.log("Server is listening on " + JSON.stringify(this.address()));
 });
