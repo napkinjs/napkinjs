@@ -74,12 +74,24 @@ var on_draw = function on_draw(data) {
 };
 
 var draw_line = function draw_line(data) {
-  for (var i=0;i<data.points.length;++i) {
+  for (var i=1;i<data.points.length-1;++i) {
+    // This is very broken. What we need is a way to calculate the correct
+    // points here.
+    var cp1x = data.points[i+1][0],
+        cp1y = data.points[i+1][1],
+        cp2x = data.points[i-1][0],
+        cp2y = data.points[i-1][1];
+
+    // Take a look at http://www.w3schools.com/tags/canvas_beziercurveto.asp
+    // and http://www.w3schools.com/tags/canvas_quadraticcurveto.asp for what
+    // the bezierCurveTo method does, and a possible alternative in
+    // quadraticCurveTo.
+
     ctx_a.beginPath();
     ctx_a.lineWidth = 1;
     ctx_a.strokeStyle = "rgba(0,0,0," + data.points[i][2] + ")";
-    ctx_a.moveTo((data.points[i-1] || data.points[i])[0], (data.points[i-1] || data.points[i])[1]);
-    ctx_a.bezierCurveTo(data.points[i][0], data.points[i][1], data.points[i][0], data.points[i][1], data.points[i][0], data.points[i][1]);
+    ctx_a.moveTo(data.points[i-1][0], data.points[i-1][1]);
+    ctx_a.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, data.points[i][0], data.points[i][1]);
     ctx_a.stroke();
   }
 };
