@@ -17,6 +17,8 @@ app.configure(function() {
 
 io.sockets.on("connection", function(socket) {
   socket.on("draw", function(data) {
+    console.log("Got draw event: " + JSON.stringify(data));
+
     socket.broadcast.emit("draw", data);
   });
 });
