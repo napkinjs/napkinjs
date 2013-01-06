@@ -74,12 +74,12 @@ var on_draw = function on_draw(data) {
 };
 
 var draw_line = function draw_line(data) {
-  for (var i=0;i<data.points.length-1;++i) {
+  for (var i=0;i<data.points.length;++i) {
     ctx_a.beginPath();
     ctx_a.lineWidth = 1;
-    ctx_a.strokeStyle = "rgba(0,0,0," + data.points[i+1][2] + ")";
-    ctx_a.moveTo(data.points[i][0], data.points[i][1]);
-    ctx_a.lineTo(data.points[i+1][0], data.points[i+1][1]);
+    ctx_a.strokeStyle = "rgba(0,0,0," + data.points[i][2] + ")";
+    ctx_a.moveTo((data.points[i-1] || data.points[i])[0], (data.points[i-1] || data.points[i])[1]);
+    ctx_a.bezierCurveTo(data.points[i][0], data.points[i][1], data.points[i][0], data.points[i][1], data.points[i][0], data.points[i][1]);
     ctx_a.stroke();
   }
 };
