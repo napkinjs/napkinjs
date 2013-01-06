@@ -23,7 +23,9 @@
   "dependencies": {
     "express": "~3.0.6",
     "socket.io": "~0.9.13",
-    "hat": "0.0.3"
+    "hat": "0.0.3",
+    "nconf": "~0.6.7",
+    "optimist": "~0.3.5"
   },
   "engines": {
     "node": "~0.8.0",

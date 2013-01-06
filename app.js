@@ -4,10 +4,18 @@ var express = require("express"),
     fs = require("fs"),
     hat = require("hat"),
     http = require("http"),
+    nconf = require("nconf"),
+    optimist = require("optimist"),
     path = require("path"),
     socket_io = require("socket.io");
 
-var config = require("./config.json");
+nconf.argv().env();
+optimist.argv._.reverse().concat(["config.json"]).filter(function(e) { return e.match(/\.json$/); }).forEach(function(file) { nconf.file(file.toLowerCase().replace(/[^a-z0-9]+/g, "_"), path.join(process.cwd(), file)); });
+nconf.defaults({
+  http: {
+    host: "127.0.0.1",
+  },
+});
 
 var app = express(),
     server = http.createServer(app),
@@ -83,6 +91,6 @@ io.sockets.on("connection", function(socket) {
   });
 });
 
-server.listen(config.http.port, function() {
+server.listen(nconf.get("http:port"), function() {
   console.log("Server is listening on " + JSON.stringify(this.address()));
 });
