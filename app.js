@@ -112,6 +112,8 @@ io.sockets.on("connection", function(socket) {
         return socket.emit("error", new Error("couldn't get action list data"));
       }
 
+      console.warn("got " + actions.length + " actions to replay");
+
       actions.forEach(function(action) {
         socket.emit("draw", JSON.parse(action));
       });
