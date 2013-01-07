@@ -49,6 +49,7 @@ app.get("/", function(req, res, next) {
 app.get("/:session([a-z0-9]{4})", function(req, res, next) {
   fs.readFile(path.join(__dirname, "public", "index.html"), function(err, data) {
     if (err) {
+      console.warn(err);
       return next(err);
     }
 
@@ -61,6 +62,7 @@ app.get("/:session([a-z0-9]{4})", function(req, res, next) {
 app.get("/:session([a-z0-9]{4}).json", function(req, res, next) {
   db.lrange(nconf.get("redis:prefix") + req.param("session"), 0, -1, function(err, actions) {
     if (err) {
+      console.warn(err);
       return res.send(500);
     }
 
@@ -84,6 +86,7 @@ var get_session = function get_session(id, done) {
 io.sockets.on("connection", function(socket) {
   get_session(socket.handshake.query.id, function(err, session) {
     if (err) {
+      console.warn(err);
       return socket.emit("error", new Error("error getting session"));
     }
 
@@ -103,36 +106,29 @@ io.sockets.on("connection", function(socket) {
 
     var key = nconf.get("redis:prefix") + socket.handshake.query.id;
 
-    db.llen(key, function(err, len) {
+    db.lrange(key, 0, -1, function(err, actions) {
       if (err) {
-        return socket.emit("error", new Error("couldn't get length of action list"));
+        console.warn(err);
+        return socket.emit("error", new Error("couldn't get action list data"));
       }
 
-      socket.emit("loading", len);
-
-      db.lrange(key, 0, len, function(err, actions) {
-        if (err) {
-          return socket.emit("error", new Error("couldn't get action list data"));
-        }
-
-        actions.forEach(function(action) {
-          socket.emit("draw", JSON.parse(action));
-        });
-
-        socket.on("draw", function(data) {
-          session.clients.forEach(function(client) {
-            if (client === socket) {
-              return;
-            }
-
-            client.emit("draw", data);
-          });
-
-          db.rpush(key, JSON.stringify(data));
-        });
-
-        socket.emit("ok");
+      actions.forEach(function(action) {
+        socket.emit("draw", JSON.parse(action));
       });
+
+      socket.on("draw", function(data) {
+        session.clients.forEach(function(client) {
+          if (client === socket) {
+            return;
+          }
+
+          client.emit("draw", data);
+        });
+
+        db.rpush(key, JSON.stringify(data));
+      });
+
+      socket.emit("ok");
     });
   });
 });
