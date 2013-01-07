@@ -18,6 +18,11 @@ For now, grab the code from git.
 > $ cd napkinjs  
 > $ npm install  
 
+napkinjs is written to work within a [seaport](https://github.com/substack/seaport)
+cluster, fronted by a custom proxy. This behaviour can be safely removed though,
+by modifying the server's `app.js` file. It also wants a redis server, so you'll
+have to have one of them available.
+
 Usage
 -----
 
