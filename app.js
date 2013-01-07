@@ -76,7 +76,7 @@ var get_session = function get_session(id, done) {
       actions: [],
     };
   }
-  
+
   return done(null, sessions[id]);
 };
 
