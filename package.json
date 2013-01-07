@@ -26,7 +26,8 @@
     "hat": "0.0.3",
     "nconf": "~0.6.7",
     "optimist": "~0.3.5",
-    "seaport": "~1.2.0"
+    "seaport": "~1.2.0",
+    "redis": "~0.8.2"
   },
   "engines": {
     "node": "~0.8.0",
