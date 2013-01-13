@@ -19,3 +19,14 @@ html, body {
 #canvas-b {
   z-index: 999;
 }
+
+#colour {
+  display: none;
+  margin: 25px;
+}
+
+#colour-preview {
+  display: inline-block;
+  width: 160px;
+  height: 120px;
+}
