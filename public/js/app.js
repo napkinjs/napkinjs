@@ -126,7 +126,7 @@ var draw_line = function draw_line(data) {
 
     ctx_a.beginPath();
     ctx_a.lineWidth = 1;
-    ctx_a.strokeStyle = "rgba(" + data.colour + "," + data.points[i][2] + ")";
+    ctx_a.strokeStyle = "rgba(" + (data.colour || "0,0,0") + "," + data.points[i][2] + ")";
     ctx_a.moveTo(data.points[i-1][0], data.points[i-1][1]);
     ctx_a.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, data.points[i][0], data.points[i][1]);
     ctx_a.stroke();
@@ -134,7 +134,7 @@ var draw_line = function draw_line(data) {
 
     ctx_a.beginPath();
     ctx_a.lineWidth = 1;
-    ctx_a.strokeStyle = "rgba(" + data.colour + "," + data.points[i][2] + ")";
+    ctx_a.strokeStyle = "rgba(" + (data.colour || "0,0,0") + "," + data.points[i][2] + ")";
     ctx_a.moveTo(data.points[i-1][0], data.points[i-1][1]);
     ctx_a.lineTo(data.points[i][0], data.points[i][1]);
     ctx_a.stroke();
@@ -144,7 +144,7 @@ var draw_line = function draw_line(data) {
 var draw_point = function draw_point(data) {
   ctx_a.beginPath();
   ctx_a.lineWidth = 1;
-  ctx_a.strokeStyle = "rgba(" + data.colour + "," + data[2] + ")";
+  ctx_a.strokeStyle = "rgba(" + (data.colour || "0,0,0") + "," + data[2] + ")";
   ctx_a.moveTo(data[0], data[1]);
   ctx_a.lineTo(data[0], data[1]);
   ctx_a.stroke();
